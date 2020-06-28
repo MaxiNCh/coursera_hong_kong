@@ -1,0 +1,19 @@
+{
+  "name": "git-test",
+  "version": "1.0.0",
+  "description": "This is test directory to leartn Git and Node (web-development)",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/MaxiNCh/coursera_hong_kong.git).git"
+  },
+  "author": "MaxiNCh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MaxiNCh/coursera_hong_kong.git)/issues"
+  },
+  "homepage": "https://github.com/MaxiNCh/coursera_hong_kong.git)#readme"
+}
