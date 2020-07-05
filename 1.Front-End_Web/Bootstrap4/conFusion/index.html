@@ -99,10 +99,10 @@
 								<label for="smoking-area" class="col-sm-3 col-form-label">Section</label>
 								<div class="col-sm">
 									<div data-toggle="buttons" class="btn-group btn-group-toggle">
-										<label for="non-smoking" class="btn btn-light active">
+										<label for="non-smoking" class="btn btn-light btn-sm active">
 											<input type="radio" name="smoking-area" id="non-smoking" autocomplete="off" checked>Non-Smoking
 										</label>
-										<label for="smoking" class="btn btn-light">
+										<label for="smoking" class="btn btn-light btn-sm">
 											<input type="radio" name="smoking-area" id="smoking" autocomplete="off">Smoking
 										</label>										
 									</div>
@@ -188,6 +188,14 @@
 						<a href="#mycarousel" role="button" data-slide="next" class="carousel-control-next">
 							<span class="carousel-control-next-icon"></span>
 						</a>
+						<div id="carouselButton" class="btn-group">
+							<button id="carousel-play" class="btn btn-danger btn-sm">
+								<span class="fas fa-play"></span>
+							</button>
+							<button id="carousel-pause" class="btn btn-danger btn-sm">
+								<span class="fas fa-pause"></span>
+							</button>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -283,6 +291,17 @@
 		<script src="js/jquery-3.5.1.min.js"></script>
 		<script src="js/popper.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
+		<script>
+			$(document).ready(function() {
+				$('#mycarousel').carousel({interval: 2000});
+				$('#carousel-pause').click(function(){
+					$('#mycarousel').carousel('pause');
+				});
+				$('#carousel-play').click(function(){
+					$('#mycarousel').carousel('cycle');
+				});
+			});
+		</script>
 		
 	</body>
 </html>
