@@ -84,3 +84,11 @@ body{
 .carousel-indicators {
 	margin-left: calc(15% + 300px);
 }
+
+.modal-header {
+    background: $background-dark;
+}
+
+.modal-body {
+    background: $background-pale;
+}
