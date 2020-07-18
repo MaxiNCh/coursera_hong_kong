@@ -1,15 +1,9 @@
-import React, {Component} from 'react';
-import {Card, CardImg, CardTitle, CardImgOverlay, CardBody, CardText} from 'reactstrap';
-
-class DishDetail extends Component {
-
-	constructor(props) {
-		super(props);
-	}
+import React from 'react';
+import {Card, CardImg, CardTitle, CardBody, CardText} from 'reactstrap';
 
 
 
-	renderDish(dish) {
+function	renderDish(dish) {
 		if (dish != null) 
 			return (
 				<Card>
@@ -26,14 +20,17 @@ class DishDetail extends Component {
 			);      
 	}
 
-	renderComments(dish) {
+function	renderComments(dish) {
 
 		if ( dish != null) {
 			const comments = dish.comments.map( (comment) => {
 				return (
-					<li key="comment.id"> 
+					<li key={comment.id}> 
 						<p className="blockquote">{comment.comment}</p>
-						<footer className="blockquote-footer">{comment.author}, {comment.date}</footer>
+						<footer className="blockquote-footer">
+							{comment.author},  
+							{new Intl.DateTimeFormat('en-US', {year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))}
+						</footer>
 						<br/>
 					</li>
 				);	
@@ -58,24 +55,24 @@ class DishDetail extends Component {
 		
 	}
 
-	render () {
-		const dish = this.props.dish;
+function DishDetail(props)  {
+
+	const dish = props.dish;
 	
+	return (
 
-		return (
-			<div className="row">
-				<div className="col-12 col-md-5 m-1">
-					{this.renderDish(dish)}
-				</div>
+		<div className="container">
+			<div className="row">	
+				<div className="col-12 col-md-5 m-1">	
+					{renderDish(dish)}	
+				</div>	
 
-				<div className="col-12 col-md-5 m-1">
-					{this.renderComments(dish)}
-				</div>
-			</div>			
-
-		);
-		
-	}
+				<div className="col-12 col-md-5 m-1">	
+					{renderComments(dish)}	
+				</div>	
+			</div>	
+		</div>
+	);		
 
 }
 
