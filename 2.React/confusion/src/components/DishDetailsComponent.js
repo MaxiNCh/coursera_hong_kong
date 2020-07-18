@@ -28,7 +28,7 @@ function	renderComments(dish) {
 					<li key={comment.id}> 
 						<p className="blockquote">{comment.comment}</p>
 						<footer className="blockquote-footer">
-							{comment.author},  
+							{comment.author},	&nbsp;
 							{new Intl.DateTimeFormat('en-US', {year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))}
 						</footer>
 						<br/>
