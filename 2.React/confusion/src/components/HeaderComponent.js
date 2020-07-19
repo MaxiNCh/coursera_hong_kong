@@ -23,6 +23,7 @@ class Header extends Component {
 				<Navbar dark expand="md">
 					<div className="container">
 						<NavbarBrand className="mr-auto" href="/"><img src='assets/images/logo.png' height="30" width="41" alt="Restorante con Fustion" /></NavbarBrand>
+						<NavbarToggler onClick={this.toggleNav} />
 						<Collapse isOpen={this.state.isNavOpen} navbar>
 							<Nav navbar>
 								<NavItem>
@@ -47,7 +48,6 @@ class Header extends Component {
 								</NavItem>
 							</Nav>							
 						</Collapse>
-						<NavbarToggler onClick={this.toggleNav} />
 					</div>
 				</Navbar>
 				<Jumbotron>
