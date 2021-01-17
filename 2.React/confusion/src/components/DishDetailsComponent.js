@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Card, CardImg, CardTitle, CardBody, CardText, Breadcrumb, BreadcrumbItem, Button, Modal, ModalHeader, ModalBody, ModalFooter, Label} from 'reactstrap';
+import {Card, CardImg, CardTitle, CardBody, CardText, Breadcrumb, BreadcrumbItem, Button, Modal, ModalHeader, ModalBody, Label} from 'reactstrap';
 import { Control, LocalForm, Errors } from 'react-redux-form';
 import {Link} from 'react-router-dom';
 
@@ -22,7 +22,7 @@ function	RenderDish(dish) {
 			);      
 	}
 
-function	RenderComments(commentsArray) {
+function	RenderComments(commentsArray, addComment, dishId) {
 
 		if ( commentsArray != null) {
 			const comments = commentsArray.map( (comment) => {
@@ -35,7 +35,7 @@ function	RenderComments(commentsArray) {
 						</footer>
 						<br/>
 					</li>
-				);	
+				);		
 			});
 				
 			return (
@@ -56,10 +56,17 @@ function DishDetail(props)  {
 
 	const dish = props.dish;
 	const commentsArray = props.comments;
+	const addComment = props.addComment;
+	const dishId = props.dish.id;
 	
 	const [modal, setModal] = useState(false);
 
 	const toggleModal = () => setModal(!modal);
+
+	const handleSubmit = (values) => {
+		toggleModal();
+		addComment(dishId, values.rating, values.author, values.comment);
+	}
 
 	const required = (val) => val && val.length;
 	const maxLength = (len) => (val) => !(val) || (val.length <= len);
@@ -71,12 +78,12 @@ function DishDetail(props)  {
 			<Modal isOpen={modal} toggle={toggleModal}>
 				<ModalHeader toggle={toggleModal}>Submit Comment</ModalHeader>
 				<ModalBody>
-					<LocalForm>
+					<LocalForm onSubmit={values => handleSubmit(values)}>
 						<div className="form-group">
-							<Label htmlFor="rate">Rating</Label>
-							<Control.select model=".rate" 
-								id="rate"
-								name="rate"
+							<Label htmlFor="rating">Rating</Label>
+							<Control.select model=".rating" 
+								id="rating"
+								name="rating"
 								className="form-control">
 								<option></option>
 								<option>1</option>
@@ -87,10 +94,10 @@ function DishDetail(props)  {
 							</Control.select>
 						</div>
 						<div className="form-group">
-							<Label htmlFor="yourname">Your Name</Label>
-							<Control.text model=".yourname" 
-								id="yourname" 
-								name="yourname"
+							<Label htmlFor="author">Your Name</Label>
+							<Control.text model=".author" 
+								id="author" 
+								name="author"
 								placeholder="Your Name"
 								className="form-control"
 								validators={{
@@ -101,7 +108,7 @@ function DishDetail(props)  {
 							/>
 							<Errors
 								className="text-danger"
-								model=".yourname"
+								model=".author"
 								show="touched"
 								messages={{
 								required: 'Required',
@@ -120,7 +127,7 @@ function DishDetail(props)  {
 								className="form-control" 
 							/>
 						</div>
-						<Button className="btn" type="submit" value="submit" color="primary" onClick={toggleModal}>Submit</Button>
+						<Button className="btn" type="submit" value="submit" color="primary">Submit</Button>
 					</LocalForm>
 				</ModalBody>
 
@@ -143,7 +150,7 @@ function DishDetail(props)  {
 					<Card>
 						<CardBody>
 							<CardTitle><h5>Comments</h5></CardTitle>							
-							{RenderComments(commentsArray)}							
+							{RenderComments(commentsArray, addComment, dishId)}							
 							<button type="button" className="btn btn-outline-secondary" onClick={toggleModal}><i className="fa fa-pencil"></i> Submit Comment</button>
 						</CardBody>					
 					</Card>	
