@@ -2,25 +2,26 @@ import React, {useState} from 'react';
 import {Card, CardImg, CardTitle, CardBody, CardText, Breadcrumb, BreadcrumbItem, Button, Modal, ModalHeader, ModalBody, Label} from 'reactstrap';
 import { Control, LocalForm, Errors } from 'react-redux-form';
 import {Link} from 'react-router-dom';
+import { Loading } from './LoadingComponent.js'
 
 
 
 function	RenderDish(dish) {
-		if (dish != null) 
-			return (
-				<Card>
-					<CardImg src={dish.image} alt={dish.name} /> 
-					<CardBody>
-						<CardTitle><h5>{dish.name}</h5></CardTitle>	
-						<CardText>{dish.description}</CardText>
-					</CardBody>
-				</Card>
-			);
-		else 
-			return (
-				<div></div>
-			);      
-	}
+	if (dish != null) 
+		return (
+			<Card>
+				<CardImg src={dish.image} alt={dish.name} /> 
+				<CardBody>
+					<CardTitle><h5>{dish.name}</h5></CardTitle>	
+					<CardText>{dish.description}</CardText>
+				</CardBody>
+			</Card>
+		);
+	else 
+		return (
+			<div></div>
+		);      
+}
 
 function	RenderComments(commentsArray, addComment, dishId) {
 
@@ -55,9 +56,11 @@ function	RenderComments(commentsArray, addComment, dishId) {
 function DishDetail(props)  {
 
 	const dish = props.dish;
+	const isLoading = props.isLoading;
+	const errMess = props.errMess;
 	const commentsArray = props.comments;
 	const addComment = props.addComment;
-	const dishId = props.dish.id;
+	// const dishId = props.dish.id;
 	
 	const [modal, setModal] = useState(false);
 
@@ -65,15 +68,31 @@ function DishDetail(props)  {
 
 	const handleSubmit = (values) => {
 		toggleModal();
-		addComment(dishId, values.rating, values.author, values.comment);
+		addComment(props.dish.id, values.rating, values.author, values.comment);
 	}
 
 	const required = (val) => val && val.length;
 	const maxLength = (len) => (val) => !(val) || (val.length <= len);
 	const minLength = (len) => (val) => val && (val.length >= len);
 
+	if (isLoading)
+		return  (
+			<div className="container">
+				<div className="row">
+					<Loading />
+				</div>				
+			</div>
+		) 
+	else if (errMess)
+		return (
+			<div className="container">
+				<div className="row">
+					<h4>{errMess}</h4>
+				</div>				
+			</div>
+		)
+	else 
 	return (
-
 		<div className="container">
 			<Modal isOpen={modal} toggle={toggleModal}>
 				<ModalHeader toggle={toggleModal}>Submit Comment</ModalHeader>
@@ -144,13 +163,13 @@ function DishDetail(props)  {
 			</div>
 			<div className="row">	
 				<div className="col-12 col-md-5 m-1">	
-					{RenderDish(dish)}	
+					{RenderDish(props.dish)}	
 				</div>
 				<div className="col-12 col-md-5 m-1">
 					<Card>
 						<CardBody>
 							<CardTitle><h5>Comments</h5></CardTitle>							
-							{RenderComments(commentsArray, addComment, dishId)}							
+							{RenderComments(commentsArray, addComment, props.dish.id)}							
 							<button type="button" className="btn btn-outline-secondary" onClick={toggleModal}><i className="fa fa-pencil"></i> Submit Comment</button>
 						</CardBody>					
 					</Card>	
