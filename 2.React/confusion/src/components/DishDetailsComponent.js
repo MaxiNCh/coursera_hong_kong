@@ -3,6 +3,7 @@ import {Card, CardImg, CardTitle, CardBody, CardText, Breadcrumb, BreadcrumbItem
 import { Control, LocalForm, Errors } from 'react-redux-form';
 import {Link} from 'react-router-dom';
 import { Loading } from './LoadingComponent.js'
+import { baseUrl } from '../shared/baseUrl.js'
 
 
 
@@ -10,7 +11,7 @@ function	RenderDish(dish) {
 	if (dish != null) 
 		return (
 			<Card>
-				<CardImg src={dish.image} alt={dish.name} /> 
+				<CardImg src={baseUrl + dish.image} alt={dish.name} /> 
 				<CardBody>
 					<CardTitle><h5>{dish.name}</h5></CardTitle>	
 					<CardText>{dish.description}</CardText>
