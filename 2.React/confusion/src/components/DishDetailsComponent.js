@@ -4,19 +4,25 @@ import { Control, LocalForm, Errors } from 'react-redux-form';
 import {Link} from 'react-router-dom';
 import { Loading } from './LoadingComponent.js'
 import { baseUrl } from '../shared/baseUrl.js'
+import { FadeTransform, Fade, Stagger } from 'react-animation-components'
 
 
 
 function	RenderDish(dish) {
 	if (dish != null) 
 		return (
-			<Card>
-				<CardImg src={baseUrl + dish.image} alt={dish.name} /> 
-				<CardBody>
-					<CardTitle><h5>{dish.name}</h5></CardTitle>	
-					<CardText>{dish.description}</CardText>
-				</CardBody>
-			</Card>
+			<FadeTransform in
+				transformProps={{
+					exitTransform: 'scale(0.5) translateY(-50%)'
+			}}>
+				<Card>
+					<CardImg src={baseUrl + dish.image} alt={dish.name} /> 
+					<CardBody>
+						<CardTitle><h5>{dish.name}</h5></CardTitle>	
+						<CardText>{dish.description}</CardText>
+					</CardBody>
+				</Card>
+			</FadeTransform>
 		);
 	else 
 		return (
@@ -29,20 +35,23 @@ function	RenderComments(commentsArray, postComment, dishId) {
 		if ( commentsArray != null) {
 			const comments = commentsArray.map( (comment) => {
 				return (
-					<li key={comment.id}> 
-						<p className="blockquote">{comment.comment}</p>
-						<footer className="blockquote-footer">
-							{comment.author},	&nbsp;
-							{new Intl.DateTimeFormat('en-US', {year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))}
-						</footer>
-						<br/>
-					</li>
+					<Fade in>
+						<li key={comment.id}> 
+							<p className="blockquote">{comment.comment}</p>
+							<footer className="blockquote-footer">
+								{comment.author},	&nbsp;
+								{new Intl.DateTimeFormat('en-US', {year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))}
+							</footer>
+							<br/>
+						</li>
+					</Fade>
 				);		
 			});
-				
 			return (
 				<ul className="list-unstyled">
-					{comments}
+					<Stagger in>
+						{comments}
+					</Stagger>
 				</ul>
 			);
 		} else {
