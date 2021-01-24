@@ -24,7 +24,7 @@ function	RenderDish(dish) {
 		);      
 }
 
-function	RenderComments(commentsArray, addComment, dishId) {
+function	RenderComments(commentsArray, postComment, dishId) {
 
 		if ( commentsArray != null) {
 			const comments = commentsArray.map( (comment) => {
@@ -60,7 +60,7 @@ function DishDetail(props)  {
 	const isLoading = props.isLoading;
 	const errMess = props.errMess;
 	const commentsArray = props.comments;
-	const addComment = props.addComment;
+	const postComment = props.postComment;
 	// const dishId = props.dish.id;
 	
 	const [modal, setModal] = useState(false);
@@ -69,7 +69,7 @@ function DishDetail(props)  {
 
 	const handleSubmit = (values) => {
 		toggleModal();
-		addComment(props.dish.id, values.rating, values.author, values.comment);
+		postComment(props.dish.id, values.rating, values.author, values.comment);
 	}
 
 	const required = (val) => val && val.length;
@@ -170,7 +170,7 @@ function DishDetail(props)  {
 					<Card>
 						<CardBody>
 							<CardTitle><h5>Comments</h5></CardTitle>							
-							{RenderComments(commentsArray, addComment, props.dish.id)}							
+							{RenderComments(commentsArray, postComment, props.dish.id)}							
 							<button type="button" className="btn btn-outline-secondary" onClick={toggleModal}><i className="fa fa-pencil"></i> Submit Comment</button>
 						</CardBody>					
 					</Card>	
