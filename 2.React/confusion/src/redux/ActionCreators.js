@@ -1,5 +1,4 @@
 import * as ActionTypes from './ActionTypes.js'
-// import { DISHES } from '../shared/dishes.js'
 import {baseUrl} from '../shared/baseUrl.js'
 
 export const addComment = (comment) => ({
@@ -76,9 +75,9 @@ export const dishesLoading = () => ({
 	type: ActionTypes.DISHES_LOADING
 })
 
-export const dishesFailed = (errmess) => ({
+export const dishesFailed = (errMess) => ({
 	type: ActionTypes.DISHES_FAILED,
-	payload: errmess
+	payload: errMess
 })
 
 export const addDishes = (dishes) => ({
@@ -110,9 +109,9 @@ export const fetchComments = () => (dispatch) => {
 
 }
 
-export const commentsFailed = (errmess) => ({
+export const commentsFailed = (errMess) => ({
 	type: ActionTypes.COMMENTS_FAILED,
-	payload: errmess
+	payload: errMess
 })
 
 export const addComments = (comments) => ({
@@ -150,12 +149,51 @@ export const promosLoading = () => ({
 	type: ActionTypes.PROMOS_LOADING
 })
 
-export const promosFailed = (errmess) => ({
+export const promosFailed = (errMess) => ({
 	type: ActionTypes.PROMOS_FAILED,
-	payload: errmess
+	payload: errMess
 })
 
 export const addPromos = (promos) => ({
 	type: ActionTypes.ADD_PROMOS,
 	payload: promos
+})
+
+export const fetchLeaders = () => (dispatch) => {
+
+	dispatch(leadersLoading);
+
+	return fetch(baseUrl + 'leaders')
+		.then(
+			response => {
+				if (response.ok) {
+					return response
+				} else {
+					const error = new Error(`Error ${response.status}: ${response.statusText}`)
+					error.response = response
+					throw error
+				}
+			},
+			error => {
+				const errMess = new Error(error.message)
+				throw errMess
+			}
+		)
+		.then(response => response.json())
+		.then(leaders => dispatch(addLeaders(leaders)))
+		.catch(error => dispatch(leadersFailed(error.message)))
+}
+
+export const addLeaders = (leaders) => ({
+	type: ActionTypes.ADD_LEADERS,
+	payload: leaders
+})
+
+export const leadersLoading = () => ({
+	type: ActionTypes.LEADERS_LOADING,
+})
+
+export const leadersFailed = (errMess) => ({
+	type: ActionTypes.LEADERS_FAILED,
+	payload: errMess
 })
