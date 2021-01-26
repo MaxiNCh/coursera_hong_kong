@@ -41,7 +41,7 @@ export const postComment = (dishId, rating, author, comment) => (dispatch) => {
 	.then(response => response.json())
 	.then(response => dispatch(addComment(response)))
 	.catch(error => {
-		console.log('post comments', error.message);
+		console.log('post comments ', error.message);
 		alert('Your comment could not be posted\nError:' + error.message);
 	})
 }
@@ -197,3 +197,43 @@ export const leadersFailed = (errMess) => ({
 	type: ActionTypes.LEADERS_FAILED,
 	payload: errMess
 })
+
+export const postFeedback = (feedback) => (dispatch) => {
+
+	const newFeedback = {...feedback}
+	newFeedback.date = new Date().toISOString();
+
+	return fetch(baseUrl + 'feedback', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json' 
+		},
+		'credentials': 'same-origin',
+		'body': JSON.stringify(newFeedback) 
+	})
+	.then(response => {
+			if (response.ok) 
+				return response
+			else {
+				const error = new Error(`Error ${response.status}: ${response.statusText}`)
+				error.response = response
+				throw error
+			}
+		},
+		error => {
+			const errMess = new Error(error.message)
+			throw errMess
+		}
+	)
+	.then(response => response.json())
+	.then(feedback => {
+		console.log('Current state is ' + JSON.stringify(feedback));
+		alert('Current state is ' + JSON.stringify(feedback));
+	})
+	.catch(error => {
+		console.log('Post feedback ', error.message)
+		alert('Your feedback could not be posted\nError:' + error.message);
+
+	})
+}
+
